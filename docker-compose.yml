@@ -45,31 +45,7 @@ services:
       - certbot-etc:/etc/letsencrypt
     networks:
       - app-network
-
-  netdata:
-    restart: always
-    image: netdata/netdata:latest
-    hostname: "localhost" # set to fqdn of host
-    ports:
-      - 19999:19999
-    cap_add:
-      - SYS_PTRACE
-    networks:
-      - app-network
-    security_opt:
-      - apparmor:unconfined
-    volumes:
-      # - /etc/passwd:/host/etc/passwd:ro
-      # - /etc/group:/host/etc/group:ro
-      # - /etc/os-release:/host/etc/os-release:ro
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      # - "../configs/${NODE_ENV}/netdata/netdata.conf:/etc/netdata/netdata.conf"
-    environment:
-      - DOCKER_USR=root
-      # - "PGID=998" # Comentar en prod/dev
-
+      
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     networks:
