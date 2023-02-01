@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
-      - MYSQL_DATABASE=wordpress
+      - MYSQL_DATABASE=$MYSQL_DBNAME
     volumes:
       - dbdata:/var/lib/mysql
     command: '--default-authentication-plugin=mysql_native_password'
@@ -25,7 +25,7 @@ services:
       - WORDPRESS_DB_HOST=db:3306
       - WORDPRESS_DB_USER=$MYSQL_USER
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
-      - WORDPRESS_DB_NAME=wordpress
+      - WORDPRESS_DB_NAME=$MYSQL_DBNAME
     volumes:
       - wordpress:/var/www/html
     networks:
@@ -45,7 +45,7 @@ services:
       - certbot-etc:/etc/letsencrypt
     networks:
       - app-network
-      
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     networks:
