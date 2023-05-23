@@ -8,6 +8,9 @@ services:
     env_file: .env
     environment:
       - MYSQL_DATABASE=$MYSQL_DBNAME
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD        
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
     volumes:
       - dbdata:/var/lib/mysql
     command: '--default-authentication-plugin=mysql_native_password'
@@ -17,7 +20,7 @@ services:
   wordpress:
     depends_on:
       - db
-    image: wordpress:6.1.1-fpm-alpine
+    image: wordpress:6.2.2-fpm-alpine
     container_name: wordpress
     restart: unless-stopped
     env_file: .env
@@ -38,7 +41,7 @@ services:
     container_name: webserver
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "8001:80"
     volumes:
       - wordpress:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
@@ -54,6 +57,7 @@ services:
       - 8080:80
     environment:
       - PMA_HOST=db
+      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
     depends_on:
       - db
 
